@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vocabularies>
+    <ontology name="cessda">
+        <type>cvm</type>
+        <api>https://cvm-cessda.dataverse.tk</api>
+        <parameters>
+            <vocab>$vocab</vocab>
+            <code>$term</code>
+            <q>CESSDA</q>
+        </parameters>
+    </ontology>
+    <ontology name="thesaurus">
+        <type>skosmos</type>
+        <vocabulary>thesaurus</vocabulary>
+        <api>https://vocabulaires.irstea.fr</api>
+        <parameters>
+            <uri>skosmos/rest/v1/search</uri>
+            <vocab>$vocab</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="unesco"> 
+        <type>skosmos</type>
+        <vocabulary>unesco</vocabulary>
+        <api>https://skosmos.labs.coronawhy.org</api>
+        <parameters>
+            <uri>skosmos/rest/v1/search</uri>
+            <vocab>unesco</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="grid">
+        <type>skosmos</type>
+        <vocabulary>grid</vocabulary>
+        <api>https://skosmos.labs.coronawhy.org</api>
+        <parameters>
+            <uri>skosmos/rest/v1/search</uri>
+            <vocab>grid</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="mesh">
+        <type>skosmos</type>
+        <vocabulary>mesh</vocabulary>
+        <api>http://api.finto.fi</api>
+        <parameters>
+            <uri>rest/v1/search</uri>
+            <vocab>mesh</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="iptc">
+        <type>skosmos</type>
+        <vocabulary>iptc</vocabulary>
+        <api>http://api.finto.fi</api>
+        <parameters>
+            <uri>rest/v1/search</uri>
+            <vocab>iptc</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="agrovoc">
+        <type>skosmos</type>
+        <vocabulary>agrovoc</vocabulary>
+        <api>http://agrovoc.uniroma2.it</api>
+        <parameters>
+            <uri>agrovoc/rest/v1/search/</uri>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="faechersystematik">
+        <type>skosmos</type>
+        <vocabulary>faechersystematik</vocabulary>
+        <api>https://labs.tib.eu</api>
+        <parameters>
+            <uri>skosmos/rest/v1/search</uri>
+            <query>$term</query>
+            <vocab>faechersystematik</vocab>
+            <lang>de</lang>
+        </parameters>
+    </ontology>
+</vocabularies>

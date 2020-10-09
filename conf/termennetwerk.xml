@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nde:NDE xmlns:nde="https://www.netwerkdigitaalerfgoed.nl/">
+    <nde:dataset id="clavas" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">ISO 639-3 taalcodes (CLAVAS)</nde:label>
+        <nde:api>https://clavas.clarin.eu/clavas/public/api</nde:api>
+        <nde:conceptScheme>http://hdl.handle.net/11459/CLAVAS_810f8d2a-6723-3ba6-2e57-41d6d3844816</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="wikidata" recipe="nl.knaw.huc.di.nde.recipe.WikiData">
+        <nde:label xml:lang="nl">Wikidata</nde:label>
+        <nde:api>https://www.wikidata.org</nde:api>
+        <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+    <nde:dataset id="wikidatagtaa" recipe="nl.knaw.huc.di.nde.recipe.WikiDataGTAAConcepts">
+        <nde:label xml:lang="nl">Wikidata/GTAA: wikidata entities that are linked to the GTAA</nde:label>
+        <nde:api>https://www.wikidata.org</nde:api>
+    </nde:dataset>
+    <nde:dataset id="gtaa" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:tenant>beng</nde:tenant>
+        <nde:collection>gtaa</nde:collection>
+    </nde:dataset>
+    <nde:dataset id="gtaaonderwerpen" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Onderwerpen (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/Onderwerpen</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="gtaaplaatsen" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Plaatsen (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/GeografischeNamen</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="gtaapersonen" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Personen (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/Persoonsnamen</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="gtaanamen" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Namen (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/Namen</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="gtaagenre" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Genres (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/Genre</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="gtaaclassificatie" recipe="nl.knaw.huc.di.nde.recipe.OpenSKOS">
+        <nde:label xml:lang="nl">GTAA Classificaties (B&amp;G)</nde:label>
+        <nde:api>http://openskos.beeldengeluid.nl/api</nde:api>
+        <nde:conceptScheme>http://data.beeldengeluid.nl/gtaa/Classificatie</nde:conceptScheme>
+    </nde:dataset>
+    <nde:dataset id="cht" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Cultuurhistorische Thesaurus (RCE)</nde:label>
+        <nde:api>https://data.cultureelerfgoed.nl/PoolParty/sparql/term/id/cht</nde:api>
+        <nde:base>https://data.cultureelerfgoed.nl/term/id/cht/</nde:base>
+        <nde:query>PREFIX%20skos%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0ACONSTRUCT%20%7B%0A%20%3Furi%20a%20skos%3AConcept%20%3B%0A%20%20%20%20skos%3AprefLabel%20%3FprefLabel%20%3B%0A%20%20%20%20skos%3AaltLabel%20%3FaltLabel%20%3B%0A%20%20%20%20skos%3AhiddenLabel%20%3FhiddenLabel%20%3B%0A%20%20%20%20skos%3AscopeNote%20%3FscopeNote%20%3B%0A%20%20%20%20skos%3Abroader%20%3Fbroader%20%3B%0A%20%20%20%20skos%3Anarrower%20%3Fnarrower%20.%0A%7D%0AWHERE%20%7B%0A%20%20%3Furi%20skos%3AprefLabel%20%3FprefLabel%20.%0A%20%20FILTER%20%28LANG%28%3FprefLabel%29%20%3D%20%22nl%22%29%20.%0A%20%20FILTER%20%28CONTAINS%28LCASE%28%3FprefLabel%29%2C%20LCASE%28%22${match}%22%29%29%29%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AaltLabel%20%3FaltLabel%20.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AhiddenLabel%20%3FhiddenLabel%20.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AscopeNote%20%3FscopeNote%20.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3Abroader%20%3Furi_broader%20.%20%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3Furi_broader%20skos%3AprefLabel%20%3Fbroader%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20FILTER%20%28LANG%28%3Fbroader%29%20%3D%20%22nl%22%29%20.%0A%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3Anarrower%20%3Furi_narrower%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%3Furi_narrower%20skos%3AprefLabel%20%3Fnarrower%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20FILTER%20%28LANG%28%3Fnarrower%29%20%3D%20%22nl%22%29%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%7D%0ALIMIT%201000</nde:query>
+         <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+    <nde:dataset id="nta" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Nederlandse Thesaurus van Auteursnamen (KB)</nde:label>
+        <nde:api>http://data.bibliotheken.nl/sparql</nde:api>
+        <nde:base>http://data.bibliotheken.nl/id/thes/</nde:base>
+        <nde:query>CONSTRUCT%20%7B%20%3Furi%20a%20skos%3AConcept%20%3B%20skos%3AprefLabel%20%3FprefLabel%20%3B%20skos%3AaltLabel%20%3FaltLabel%20%3B%20skos%3AscopeNote%20%3FscopeNote%20%7D%0AWHERE%20%7B%20graph%20%3Chttp%3A%2F%2Fdata.bibliotheken.nl%2Fthesp%2F%3E%20%7B%20%0A%7B%20%0A%3Furi%20rdfs%3Alabel%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20%20.%0A%7D%20UNION%20%7B%0A%3Furi%20schema%3AalternateName%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20.%20%20%0A%7D%20UNION%20%7B%0A%3Furi%20schema%3Aname%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20.%0A%7D%0AOPTIONAL%20%7B%20%3Furi%20rdfs%3Alabel%20%3FprefLabel%20%7D%0AOPTIONAL%20%7B%20%3Furi%20rdfs%3Acomment%20%3FscopeNote%20%7D%0AOPTIONAL%20%7B%20%3Furi%20schema%3AalternateName%7Cschema%3Aname%20%3FaltLabel%20%7D%0A%7D%7D%0ALIMIT%201000</nde:query>
+    </nde:dataset>
+    <nde:dataset id="brinkman" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Brinkman Thesaurus (KB)</nde:label>
+        <nde:api>http://data.bibliotheken.nl/sparql</nde:api>
+        <nde:base>http://data.bibliotheken.nl/id/thes/</nde:base>
+        <nde:query>CONSTRUCT%20%7B%20%3Furi%20a%20skos%3AConcept%20%3B%20skos%3AprefLabel%20%3FprefLabel%20%3B%20skos%3AaltLabel%20%3FaltLabel%20%3B%20skos%3Abroader%20%3Fbroader%3B%20skos%3Anarrower%20%3Fnarrower%3B%20skos%3AscopeNote%20%3FscopeNote%20%7D%0AWHERE%20%7B%20graph%20%3Chttp%3A%2F%2Fdata.bibliotheken.nl%2Fthes%2F%3E%20%7B%20%0A%7B%20%0A%3Furi%20rdfs%3Alabel%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20%20.%0A%7D%20UNION%20%7B%0A%3Furi%20schema%3AalternateName%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20.%20%20%0A%7D%20UNION%20%7B%0A%3Furi%20schema%3Aname%20%3Flabel%20.%0A%3Flabel%20bif%3Acontains%20%22%27${match}%27%22%20.%0A%7D%0AOPTIONAL%20%7B%20%3Furi%20rdfs%3Alabel%20%3FprefLabel%20%7D%0AOPTIONAL%20%7B%20%0A%20%20%3Furi%20skos%3Abroader%20%3Fb_uri%20.%0A%20%20%3Fb_uri%20rdfs%3Alabel%20%3Fbroader%20.%20%0A%20%7D%0AOPTIONAL%20%7B%20%0A%20%20%3Furi%20skos%3Anarrower%20%3Fn_uri%20.%0A%20%20%3Fn_uri%20rdfs%3Alabel%20%3Fnarrower%20.%20%0A%7D%0AOPTIONAL%20%7B%20%3Furi%20rdfs%3Acomment%20%3FscopeNote%20%7D%0AOPTIONAL%20%7B%20%3Furi%20schema%3AalternateName%7Cschema%3Aname%20%3FaltLabel%20%7D%0A%3Furi%20skos%3AinScheme%20%3Chttp%3A%2F%2Fdata.bibliotheken.nl%2Fid%2Fscheme%2Fbrinkman%3E%0A%7D%7D%0ALIMIT%201000</nde:query>
+    </nde:dataset>
+    <nde:dataset id="svcn" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Volkenkundige Thesaurus (SVCN)</nde:label>
+        <nde:api>https://digitaalerfgoed.poolparty.biz/PoolParty/sparql/svcn</nde:api>
+        <nde:base>https://digitaalerfgoed.poolparty.biz/svcn/</nde:base>
+        <nde:query>PREFIX%20skos%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0ACONSTRUCT%20%7B%0A%20%20%3Furi%20a%20skos%3AConcept%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AprefLabel%20%3FprefLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AaltLabel%20%3FaltLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AhiddenLabel%20%3FhiddenLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AscopeNote%20%3FscopeNote%20.%0A%7D%0AWHERE%20%7B%0A%20%20%3Furi%20skos%3AprefLabel%20%3FprefLabel%20.%0A%20%20FILTER%20%28LANG%28%3FprefLabel%29%20%3D%20%22nl%22%29%20.%0A%20%20FILTER%20%28CONTAINS%28LCASE%28%3FprefLabel%29%2C%20LCASE%28%22${match}%22%29%29%29%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AscopeNote%20%3FscopeNote%20.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AaltLabel%20%3FaltLabel%20.%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AhiddenLabel%20%3FhiddenLabel%20.%20%7D%0A%7D%0ALIMIT%201000</nde:query>
+        <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+    <nde:dataset id="wo2" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">WO2 Thesaurus (NIOD)</nde:label>
+        <nde:api>https://data.niod.nl/PoolParty/sparql/WO2_Thesaurus</nde:api>
+        <nde:base>https://data.niod.nl/WO2_Thesaurus/</nde:base>
+        <nde:query>PREFIX%20skos%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0ACONSTRUCT%20%7B%0A%20%20%3Furi%20a%20skos%3AConcept%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AprefLabel%20%3FprefLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AaltLabel%20%3FaltLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AhiddenLabel%20%3FhiddenLabel%20%3B%0A%20%20%20%20%20%20%20%20%20skos%3AscopeNote%20%3FscopeNote%20.%0A%7D%0AWHERE%20%7B%0A%20%20%3Furi%20skos%3AprefLabel%20%3FprefLabel%20%0A%20%20FILTER%20%28LANG%28%3FprefLabel%29%20%3D%20%22nl%22%29%20%0A%20%20FILTER%20%28CONTAINS%28LCASE%28%3FprefLabel%29%2C%20LCASE%28%22${match}%22%29%29%29%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AscopeNote%20%3FscopeNote%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AaltLabel%20%3FaltLabel%20%7D%0A%20%20OPTIONAL%20%7B%20%3Furi%20skos%3AhiddenLabel%20%3FhiddenLabel%20%7D%0A%7D%0ALIMIT%201000</nde:query>
+        <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+    <nde:dataset id="aat" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Art &amp; Architecture Thesaurus (Getty)</nde:label>
+        <nde:api>http://vocab.getty.edu/sparql</nde:api>
+        <nde:base>http://vocab.getty.edu/aat/</nde:base>
+        <nde:query>PREFIX%20skos%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2004%2F02%2Fskos%2Fcore%23%3E%0APREFIX%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0APREFIX%20aat%3A%20%3Chttp%3A%2F%2Fvocab.getty.edu%2Faat%2F%3E%0APREFIX%20dcterms%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0APREFIX%20skosxl%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2008%2F05%2Fskos-xl%23%3E%0APREFIX%20gvp%3A%20%3Chttp%3A%2F%2Fvocab.getty.edu%2Fontology%23%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0APREFIX%20luc%3A%20%3Chttp%3A%2F%2Fwww.ontotext.com%2Fowlim%2Flucene%23%3E%0ACONSTRUCT%20%7B%0A%3Furi%20skos%3AprefLabel%20%3FprefLabel%20.%0A%3Furi%20skos%3AaltLabel%20%3FaltLabel%20%20.%0A%3Furi%20skos%3AscopeNote%20%3FscopeNote%20.%0A%7D%0AWHERE%20%20%7B%0A%3Furi%20luc%3Aterm%20%22${match}%22%3B%20a%20%3Ftyp.%0A%3Ftyp%20rdfs%3AsubClassOf%20gvp%3ASubject%20.%0AFILTER%20%28%3Ftyp%20%21%3D%20gvp%3ASubject%29%20.%0A%3Furi%20skosxl%3AprefLabel%20%3FmainLabel%20.%0A%3FmainLabel%20dcterms%3Alanguage%20aat%3A300388256%20.%0A%3FmainLabel%20skosxl%3AliteralForm%20%3FprefLabel%20.%0AOPTIONAL%20%7B%0A%20%3Furi%20skosxl%3AaltLabel%20%3FsubLabel%20.%0A%20%3FsubLabel%20dcterms%3Alanguage%20aat%3A300388256%20.%0A%20%3FsubLabel%20skosxl%3AliteralForm%20%3FaltLabel%20.%0A%20%20%7D%0A%3Furi%20skos%3AscopeNote%20%3Fsn%20.%0A%3Fsn%20dcterms%3Alanguage%20aat%3A300388256%20.%0A%3Fsn%20rdf%3Avalue%20%3FscopeNote%20.%0A%7D</nde:query>
+    </nde:dataset>
+    <nde:dataset id="som" recipe="nl.knaw.huc.di.nde.recipe.SparqlEndpoint">
+        <nde:label xml:lang="nl">Stichting Omroep Muziekbibliotheek (SOM)</nde:label>
+        <nde:api>http://data.muziekschatten.nl/sparql</nde:api>
+        <nde:base>http://data.muziekschatten.nl/som/</nde:base>
+        <nde:query>PREFIX%20som%3A%20%3Chttp%3A%2F%2Fdata.muziekschatten.nl%2Fsom%2F%3E%0ACONSTRUCT%0A%7B%3Furi%20a%20skos%3AConcept%3B%20skos%3AprefLabel%20%3FprefLabel%3B%20skos%3AscopeNote%20%3FscopeNote%3B%20skos%3Abroader%20%3Fbroader%20%7D%0AWHERE%20%7B%0Agraph%20%3Chttp%3A%2F%2Fdata.muziekschatten.nl%2Fsomlod%2F%3E%20%7B%0A%3Furi%20schema%3Akeywords%20%3Fkeywords%20.%0A%3Fkeywords%20bif%3Acontains%20%22%27${match}%27%22%20.%0A%3Furi%20schema%3Aname%20%3FprefLabel%20.%0AFILTER%20%28langMatches%28lang%28%3FprefLabel%29%2C%20%22nl%22%29%29%20%0A%7D%0A%0Agraph%20%3Chttp%3A%2F%2Fdata.muziekschatten.nl%2Fsom%2F%3E%20%7B%0A%3Furi%20som%3ABASIS%20%221%22%20.%0A%3Furi%20som%3ADC%20%3Fdc%0ABIND%28CONCAT%28%22Dewey%20code%3A%20%22%2C%3Fdc%29%20as%20%3FscopeNote%29%0A%7D%0A%0AOPTIONAL%20%7B%0A%20%3Furi%20skos%3Abroader%20%3Furi_broader%20.%0A%20%3Furi_broader%20schema%3Aname%20%3Fbroader%20.%0A%20FILTER%20%28langMatches%28lang%28%3Fbroader%29%2C%22nl%22%29%29%0A%7D%0A%7D%0ALIMIT%201000</nde:query>
+    </nde:dataset>
+    <nde:dataset id="erfgeo:street" recipe="nl.knaw.huc.di.nde.recipe.ErfGeo">
+        <nde:label xml:lang="nl">Straten in de Nederlandse topografie door de tijd (ErfGeo via proxy)</nde:label>
+        <nde:api>https://www.hicsuntleones.nl/erfgeoproxy/</nde:api>
+        <nde:base>https://erfgeo.nl/thesaurus/pit/?id=</nde:base>
+        <nde:type>hg:Street</nde:type>
+        <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+    <nde:dataset id="erfgeo" recipe="nl.knaw.huc.di.nde.recipe.ErfGeo">
+        <nde:label xml:lang="nl">Plaatsen in de Nederlandse topografie door de tijd - (ErfGeo via proxy)</nde:label>
+        <nde:api>https://www.hicsuntleones.nl/erfgeoproxy/</nde:api>
+        <nde:base>https://erfgeo.nl/thesaurus/pit/?id=</nde:base>
+        <nde:type>hg:Place</nde:type>
+        <nde:wildcard>no</nde:wildcard>
+    </nde:dataset>
+</nde:NDE>
