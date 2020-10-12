@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import uvicorn
+#import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 #from flask import Flask, request, Response
@@ -275,5 +275,7 @@ def create_cmm_element(u, c, pl, lpl):
     o_obj['language'] = {'type': 'literal', 'value': 'en'}
     return o_obj
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=9266)
+#if __name__ == "__main__":
+#    uvicorn.run(app, host="0.0.0.0", port=9266)
+#if __name__ == "__main__":
+#    uvicorn.run(app, host="0.0.0.0")
