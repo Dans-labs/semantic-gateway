@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vocabularies>
     <ontology name="cessda">
-        <type>cvm</type>
-        <api>https://cvm-cessda.dataverse.tk</api>
-        <parameters>
-            <vocab>$vocab</vocab>
-            <code>$term</code>
-            <q>CESSDA</q>
-        </parameters>
+        <type>cessda</type>
+        <api>https://vocabularies.cessda.eu</api>
+        <uri>v1/suggest/Vocabulary/$vocab/version/1.0/language/en/limit/10/query/$term</uri>
     </ontology>
     <ontology name="thesaurus">
         <type>skosmos</type>
         <vocabulary>thesaurus</vocabulary>
         <api>https://vocabulaires.irstea.fr</api>
+        <uri>skosmos/rest/v1/search</uri>
         <parameters>
-            <uri>skosmos/rest/v1/search</uri>
+            <vocab>$vocab</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
+    <ontology name="wikidata">
+        <type>nde</type>
+        <vocabulary>wikidata</vocabulary>
+        <api>http://demo.netwerkdigitaalerfgoed.nl:8080</api>
+        <uri>nde/graphql</uri>
+        <query>query=%20%7B%20terms(match%3A%22$term%22%2Cdataset%3A%5B%22$vocab%22%5D)%20%7B%20dataset%20terms%20%7Buri%2C%20altLabel%7D%20%7D%20%7D</query>
+        <parameters>
             <vocab>$vocab</vocab>
             <query>$term</query>
             <lang>$lang</lang>
@@ -24,8 +32,8 @@
         <type>skosmos</type>
         <vocabulary>unesco</vocabulary>
         <api>https://skosmos.labs.coronawhy.org</api>
+        <uri>rest/v1/search</uri>
         <parameters>
-            <uri>skosmos/rest/v1/search</uri>
             <vocab>unesco</vocab>
             <query>$term</query>
             <lang>$lang</lang>
@@ -35,8 +43,8 @@
         <type>skosmos</type>
         <vocabulary>grid</vocabulary>
         <api>https://skosmos.labs.coronawhy.org</api>
+        <uri>rest/v1/search</uri>
         <parameters>
-            <uri>skosmos/rest/v1/search</uri>
             <vocab>grid</vocab>
             <query>$term</query>
             <lang>$lang</lang>
@@ -46,8 +54,8 @@
         <type>skosmos</type>
         <vocabulary>mesh</vocabulary>
         <api>http://api.finto.fi</api>
+        <uri>rest/v1/search</uri>
         <parameters>
-            <uri>rest/v1/search</uri>
             <vocab>mesh</vocab>
             <query>$term</query>
             <lang>$lang</lang>
@@ -57,8 +65,8 @@
         <type>skosmos</type>
         <vocabulary>iptc</vocabulary>
         <api>http://api.finto.fi</api>
+        <uri>rest/v1/search</uri>
         <parameters>
-            <uri>rest/v1/search</uri>
             <vocab>iptc</vocab>
             <query>$term</query>
             <lang>$lang</lang>
@@ -68,8 +76,8 @@
         <type>skosmos</type>
         <vocabulary>agrovoc</vocabulary>
         <api>http://agrovoc.uniroma2.it</api>
+        <uri>agrovoc/rest/v1/search/</uri>
         <parameters>
-            <uri>agrovoc/rest/v1/search/</uri>
             <query>$term</query>
             <lang>$lang</lang>
         </parameters>
@@ -78,8 +86,8 @@
         <type>skosmos</type>
         <vocabulary>faechersystematik</vocabulary>
         <api>https://labs.tib.eu</api>
+        <uri>skosmos/rest/v1/search</uri>
         <parameters>
-            <uri>skosmos/rest/v1/search</uri>
             <query>$term</query>
             <vocab>faechersystematik</vocab>
             <lang>de</lang>
