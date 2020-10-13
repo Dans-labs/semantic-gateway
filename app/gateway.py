@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#import uvicorn
+import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
-#from flask import Flask, request, Response
+from fastapi.middleware.cors import CORSMiddleware
 import xml.etree.ElementTree as ET
 import requests
 import re
@@ -50,6 +50,14 @@ tags_metadata = [
 app = FastAPI(
     openapi_tags=tags_metadata
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex='https?://.*',
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.openapi = custom_openapi
 
 http = urllib3.PoolManager()
@@ -59,6 +67,7 @@ def namespace(vocab: str, term: str, request: Request):
     #return request.query_params
     return "%s %s" % (vocab, term)
 
+# READ configuration
 def readconfig(iparams):
    configfile = '/app/conf/gateway.xml'
    if 'config' in os.environ:
@@ -73,6 +82,7 @@ def readconfig(iparams):
       params[k] = iparams[k]
    if 'voc' in iparams:
       params['vocab'] = iparams['voc']
+      del params['voc']
    if not 'lang' in params:
       params['lang'] = 'en'
    if 'keyword' in params:
@@ -144,7 +154,6 @@ def search(request: Request):
     
     # CONFIG
     config = readconfig(input)
-    #return config
 
     if config['type'] == 'skosmos':
         data = skosmos(config)
@@ -275,7 +284,7 @@ def create_cmm_element(u, c, pl, lpl):
     o_obj['language'] = {'type': 'literal', 'value': 'en'}
     return o_obj
 
-#if __name__ == "__main__":
-#    uvicorn.run(app, host="0.0.0.0", port=9266)
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=9266)
 #if __name__ == "__main__":
 #    uvicorn.run(app, host="0.0.0.0")
