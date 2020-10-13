@@ -5,6 +5,12 @@
         <api>https://vocabularies.cessda.eu</api>
         <uri>v1/suggest/Vocabulary/$vocab/version/1.0/language/en/limit/10/query/$term</uri>
     </ontology>
+    <ontology name="Unit of Analysis">
+        <type>cessda</type>
+        <vocabulary>Unit of Analysis</vocabulary>
+        <api>https://vocabularies.cessda.eu</api>
+        <uri>v1/suggest/Vocabulary/$vocab/version/1.0/language/en/limit/10/query/$term</uri>
+    </ontology>
     <ontology name="thesaurus">
         <type>skosmos</type>
         <vocabulary>thesaurus</vocabulary>
