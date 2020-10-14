@@ -2,3 +2,4 @@ git+https://github.com/AUSSDA/pyDataverse.git@develop
 pymongo
 elasticsearch
 pandas
+aiofiles
