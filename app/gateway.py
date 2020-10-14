@@ -90,6 +90,8 @@ def readconfig(iparams):
    if 'code' in params:
       params['term'] = "%s*" % params['code']
       params['query'] = "%s*" % params['code']
+   if 'term' in params:
+      params['term'] = "%s*" % params['term']
 
    for ontology in root.iter('ontology'):
       ontodict = {}
@@ -284,7 +286,7 @@ def create_cmm_element(u, c, pl, lpl):
     o_obj['language'] = {'type': 'literal', 'value': 'en'}
     return o_obj
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=9266)
+#if __name__ == "__main__":
+#    uvicorn.run(app, host="0.0.0.0", port=9266)
 #if __name__ == "__main__":
 #    uvicorn.run(app, host="0.0.0.0")

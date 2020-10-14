@@ -1,0 +1,38 @@
+# IngressRoute
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: semantic-gateway-web
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`ns.coronawhy.org`)
+      kind: Rule
+      services:
+        - name: semantic-gateway
+          port: 8000
+      middlewares:
+        - name: admin-websecure
+---
+kind: IngressRoute
+apiVersion: traefik.containo.us/v1alpha1
+metadata:
+  name: semantic-gateway-websecure
+  namespace: default
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`ns.coronawhy.org`)
+      kind: Rule
+      services:
+        - name: semantic-gateway
+          port: 8000
+      middlewares:
+        - name: admin-websecure
+  tls:
+    certResolver: default

@@ -1,0 +1,26 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: semantic-gateway
+  namespace: default
+  labels:
+    app: semantic-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: semantic-gateway
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: semantic-gateway
+    spec:
+      containers:
+        - name: semantic-gateway
+          image: coronawhy/semantic-gateway:latest
+          ports:
+            - name: semantic-gateway
+              containerPort: 8000
+

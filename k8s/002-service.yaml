@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: semantic-gateway
+
+spec:
+  ports:
+    - port: 8205
+      name: sg
+      protocol: TCP
+  selector:
+    app: semantic-gateway
