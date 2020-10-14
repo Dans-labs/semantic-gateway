@@ -11,6 +11,17 @@
         <api>https://vocabularies.cessda.eu</api>
         <uri>v1/suggest/Vocabulary/$vocab/version/1.0/language/en/limit/10/query/$term</uri>
     </ontology>
+    <ontology name="covidqa">
+        <type>skosmos</type>
+        <vocabulary>covidqa</vocabulary>
+        <api>https://skosmos.labs.coronawhy.org</api>
+        <uri>rest/v1/search</uri>
+        <parameters>
+            <vocab>$vocab</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
     <ontology name="thesaurus">
         <type>skosmos</type>
         <vocabulary>thesaurus</vocabulary>
