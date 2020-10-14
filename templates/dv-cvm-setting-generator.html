@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display and Edit Configuration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-5">Dataverse CVM Setting Generator</h1>
+        <hr class="my-4">
+        <form method="post">
+        <div class="form-group">
+            {% for dv_setting_el in dv_setting_json %}
+            <div class="row">
+                <div class="col-sm-3">
+                    <label class="d-block">
+                        <input type="checkbox" class="mr-1" name="sports"> {{ dv_setting_el['aci'] }}
+                    </label>
+                </div>
+                <div class="col-sm-3">
+                <select class="form-control">
+                    <option value="" disabled selected>Choose your ontology</option>
+                    {% for ontology in ontologies %}
+                    <option value="{{ ontology.get_name() }}">{{ ontology.get_name() }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </form>
+        <hr class="my-4">
+
+
+
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display and Edit Configuration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-5">Semantic Gateway Configuration</h1>
+        <hr class="my-4">
+
+        {% for ontology in ontologies %}
+        <div class="card-body mb-2 border border-primary">
+            <div class="row">
+                <div class="col-sm-2">Name</div>
+                <div class="col-sm-6">{{ ontology.get_name() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">Type</div>
+                <div class="col-sm-6">{{ ontology.get_type() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">Vocabulary</div>
+                <div class="col-sm-6">{{ ontology.get_vocabulary() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">URL</div>
+                <div class="col-sm-6">{{ ontology.get_base_url() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">URI</div>
+                <div class="col-sm-6">{{ ontology.get_uri() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">Vocab</div>
+                <div class="col-sm-6">{{ ontology.get_vocab() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">Query</div>
+                <div class="col-sm-6">{{ ontology.get_query() }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">Language</div>
+                <div class="col-sm-6">{{ ontology.get_lang() }}</div>
+            </div>
+        </p>
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-sm-6"><a class="btn btn-primary btn-lg" href="/configuration/edit" role="button">Edit</a></div>
+            <div class="col-sm-6 text-right"><a class="btn btn-warning btn-lg" href="/configuration/download" role="button">download</a></div>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
