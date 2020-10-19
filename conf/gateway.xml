@@ -22,6 +22,17 @@
             <lang>$lang</lang>
         </parameters>
     </ontology>
+    <ontology name="dansorg">
+        <type>skosmos</type>
+        <vocabulary>dansorg</vocabulary>
+        <api>https://skosmos.labs.coronawhy.org</api>
+        <uri>rest/v1/search</uri>
+        <parameters>
+            <vocab>$vocab</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
     <ontology name="thesaurus">
         <type>skosmos</type>
         <vocabulary>thesaurus</vocabulary>
@@ -36,7 +47,7 @@
     <ontology name="wikidata">
         <type>nde</type>
         <vocabulary>wikidata</vocabulary>
-        <api>http://demo.netwerkdigitaalerfgoed.nl:8080</api>
+        <api>https://nde.dataverse.org.ua</api>
         <uri>nde/graphql</uri>
         <query>query=%20%7B%20terms(match%3A%22$term%22%2Cdataset%3A%5B%22$vocab%22%5D)%20%7B%20dataset%20terms%20%7Buri%2C%20altLabel%7D%20%7D%20%7D</query>
         <parameters>
