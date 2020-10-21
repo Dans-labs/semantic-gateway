@@ -56,6 +56,18 @@
             <lang>$lang</lang>
         </parameters>
     </ontology>
+    <ontology name="abr">
+        <type>nde</type>
+        <vocabulary>abr</vocabulary>
+        <api>https://nde.dataverse.org.ua</api>
+        <uri>nde/graphql</uri>
+        <query>query=%20%7B%20terms(match%3A%22$term%22%2Cdataset%3A%5B%22$vocab%22%5D)%20%7B%20dataset%20terms%20%7Buri%2C%20altLabel%7D%20%7D%20%7D</query>
+        <parameters>
+            <vocab>$vocab</vocab>
+            <query>$term</query>
+            <lang>$lang</lang>
+        </parameters>
+    </ontology>
     <ontology name="unesco"> 
         <type>skosmos</type>
         <vocabulary>unesco</vocabulary>
