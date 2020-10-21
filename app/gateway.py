@@ -102,8 +102,11 @@ def download():
 
 @app.get("/{vocab}/{term}/", tags=["namespace"])
 def namespace(vocab: str, term: str, request: Request):
-    #return request.query_params
-    return "%s %s" % (vocab, term)
+    artnamespace = {}
+    artnamespace['ns'] = vocab
+    artnamespace['term'] = term
+    return artnamespace
+    #return "%s %s" % (vocab, term)
 
 # READ configuration
 def readconfig(iparams):
@@ -251,18 +254,20 @@ def nde(config):
     result = data['data']['terms'][0]['terms']
     dataset = {}
     alldata = []
+    known = {}
     for item in result:
         d = {}
         url = {}
         prefLabel = {}
         if 'uri' in item:
-            url['type'] = 'uri'
-            url['value'] = item['uri']
-            prefLabel["type"] = "literal"
-            prefLabel['value'] = str(item['altLabel'][0])
-            d['url'] = url
-            d['prefLabel'] = prefLabel
-            alldata.append(d)
+            if not item['uri'] in known:
+                url['type'] = 'uri'
+                url['value'] = item['uri']
+                prefLabel["type"] = "literal"
+                prefLabel['value'] = str(item['altLabel'][0])
+                d['url'] = url
+                d['prefLabel'] = prefLabel
+                alldata.append(d)
     if result:
         dataset['listOfCodes'] = alldata
     return dataset
@@ -272,18 +277,21 @@ def skosmos(config):
     result = data['results']
     dataset = {}
     alldata = []
+    known = {}
     for item in result:
         d = {}
         url = {}
         prefLabel = {}
         if 'uri' in item:
-            url['type'] = 'uri'
-            url['value'] = item['uri']
-            prefLabel["type"] = "literal"
-            prefLabel['value'] = str(item['prefLabel'])
-            d['url'] = url
-            d['prefLabel'] = prefLabel
-            alldata.append(d)
+            if not item['uri'] in known:
+                url['type'] = 'uri'
+                url['value'] = item['uri']
+                prefLabel["type"] = "literal"
+                prefLabel['value'] = str(item['prefLabel'])
+                d['url'] = url
+                d['prefLabel'] = prefLabel
+                alldata.append(d)
+                known[item['uri']] = url
     if result:
         dataset['listOfCodes'] = alldata
     return dataset
@@ -359,7 +367,7 @@ def create_cmm_element(u, c, pl, lpl):
     o_obj['language'] = {'type': 'literal', 'value': 'en'}
     return o_obj
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=9266)
+#if __name__ == "__main__":
+#    uvicorn.run(app, host="0.0.0.0", port=9266)
 #if __name__ == "__main__":
 #    uvicorn.run(app, host="0.0.0.0")
