@@ -3,3 +3,4 @@ pymongo
 elasticsearch
 pandas
 aiofiles
+jinja2
