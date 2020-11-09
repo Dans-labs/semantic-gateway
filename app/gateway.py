@@ -129,6 +129,9 @@ def readconfig(iparams):
       params['query'] = "%s*" % params['code']
    if 'term' in params:
       params['term'] = "%s*" % params['term']
+   if 'query' in params:
+      params['term'] = "%s*" % params['query']
+      params['query'] = "%s*" % params['query']
 
    for ontology in root.iter('ontology'):
       ontodict = {}
@@ -192,10 +195,18 @@ def search(request: Request):
     #input = test
     
     # CONFIG
-    config = readconfig(input)
+    protocol = 'default'
+    if 'protocol' in input:
+        protocol = input['protocol']
+    try:
+        config = readconfig(input)
+    except:
+        print("Semantic Gateway v0.5")
 
+    if not 'type' in config:
+        return config
     if config['type'] == 'skosmos':
-        data = skosmos(config)
+        data = skosmos(config, protocol)
         return data
     elif config['type'] == 'nde':
         data = nde(config)
@@ -272,8 +283,11 @@ def nde(config):
         dataset['listOfCodes'] = alldata
     return dataset
 
-def skosmos(config):
+def skosmos(config, protocol):
     data = json.loads(requests.get(config['apiurl']).text)
+    if protocol == 'skosmos':
+        return data
+
     result = data['results']
     dataset = {}
     alldata = []
@@ -367,7 +381,7 @@ def create_cmm_element(u, c, pl, lpl):
     o_obj['language'] = {'type': 'literal', 'value': 'en'}
     return o_obj
 
-#if __name__ == "__main__":
-#    uvicorn.run(app, host="0.0.0.0", port=9266)
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=9266)
 #if __name__ == "__main__":
 #    uvicorn.run(app, host="0.0.0.0")
