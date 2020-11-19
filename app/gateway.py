@@ -284,14 +284,28 @@ def nde(config):
     return dataset
 
 def skosmos(config, protocol):
-    data = json.loads(requests.get(config['apiurl']).text)
-    if protocol == 'skosmos':
-        return data
-
-    result = data['results']
+    # SKOSMOS filter
     dataset = {}
     alldata = []
     known = {}
+
+    data = json.loads(requests.get(config['apiurl']).text)
+    if protocol == 'skosmos':
+        result = data['results']
+        dataset['@context'] = data['@context']
+        for item in result:
+            d = {}
+            url = {}
+            prefLabel = {}
+            if 'uri' in item:
+                if not item['uri'] in known:
+                    d = item
+                    alldata.append(d)
+                    known[item['uri']] = d
+        dataset['result'] = alldata
+        return dataset
+
+    result = data['results']
     for item in result:
         d = {}
         url = {}
