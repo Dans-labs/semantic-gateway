@@ -302,7 +302,7 @@ def skosmos(config, protocol):
                     d = item
                     alldata.append(d)
                     known[item['uri']] = d
-        dataset['result'] = alldata
+        dataset['results'] = alldata
         return dataset
 
     result = data['results']
