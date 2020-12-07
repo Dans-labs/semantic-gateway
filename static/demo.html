@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controlled Vocabularies demo</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="/static/js/interface.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="/static/js/config.js"></script>
+  <script>
+
+  $( function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+ 
+    $( "#keywords" ).autocomplete({
+      source: function( request, response ) {
+	autointerface(protocol, request, response, cv, mapping);
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+        console.log( ui );
+        log( "URI: " + ui.item.id + "  " + ui.item.value );
+      }
+    } );
+  } );
+  </script>
+</head>
+<body>
+ 
+<div class="ui-widget">
+  <label for="keywords">Keywords: </label>
+  <input id="keywords">
+</div>
+ 
+<div class="ui-widget" style="margin-top:2em; font-family:Arial">
+  Result:
+  <div id="log" style="height: 200px; width: 600px; overflow: auto;" class="ui-widget-content"></div>
+</div>
+ 
+ 
+</body>
+</html>
