@@ -4,7 +4,7 @@ var mapping = { query: mapquery,  id: mapid };
 
 function autointerface(protocol, request, response, cv, mapping) {
     if (!protocol) { protocol = 'skos'; };
-    if (protocol == 'skos') {
+    if (protocol == 'skosmos') {
         return(skosmos(request, response, cv, mapping)); }
     if (protocol == 'example') {
         return(autoexample(request, response)); };

@@ -3,5 +3,5 @@ selectedVocab = 'unesco';
 term = 'family';
 selectedVocab = 'TopicClassification';
 cv = { 'cvmReqUrl' : cvmReqUrl, 'selectedVocab': selectedVocab, 'term': term };
-var protocol = 'example';
-var protocol = 'skos';
+//var protocol = 'example';
+var protocol = 'skosmos';
