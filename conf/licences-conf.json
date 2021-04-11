@@ -8,7 +8,7 @@
   "protocol": "skosmos",
   "vocab-uri" : "https://spdx.org/licenses/", 
   "term-parent-uri": "",
-  "vocabs":["licences"],
+  "vocabs":["licence"],
   "vocab-codes": ["licenceVocabulary", "licenceTerm", "licenceTermURI", "licenceVocabularyURI"]
 }
 ]
