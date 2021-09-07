@@ -3,6 +3,7 @@
 # Developed by Slava Tykhonov and Eko Indarto
 # Data Archiving and Networked Services (DANS-KNAW), Netherlands
 import uvicorn
+import pandas as pd
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
 from starlette.responses import FileResponse, RedirectResponse
@@ -16,6 +17,7 @@ import re
 import os
 import json
 import urllib3, io
+import subprocess
 
 def custom_openapi():
     if app.openapi_schema:
@@ -100,6 +102,83 @@ async def modify_configuration_post(request: Request):
 def download():
     return FileResponse(configfile, media_type='application/octet-stream', filename='gateway-conf.xml')
 
+def datareader(dataverseURL, fileid):
+    try:
+        fileURL = "https://%s/api/access/datafile/%s?format=original&gbrecs=true" % (dataverseURL, fileid)
+        df = pd.read_csv(fileURL)
+    except:
+        fileURL = "http://%s/api/access/datafile/%s?format=original&gbrecs=true" % (dataverseURL, fileid)
+        df = pd.read_csv(fileURL)
+    try:
+        datarecords = df.to_json(orient='records')
+        return (df, datarecords)
+    except:
+        return "{ 'error': 'Not supported format' }"
+
+# Data files conversion to the Semantic Bot format, for example: /records/dataverse.harvard.edu/4436990/
+@app.get("/records/{dataverseURL}/{fileid}/", tags=["namespace"])
+def records(dataverseURL: str, fileid: str, request: Request):
+    #fileURL = 'https://dataverse.harvard.edu/api/access/datafile/4436989?format=original&gbrecs=true'
+    MAX = 2
+    (df, datarecords) = datareader(dataverseURL, fileid)
+
+    records = []
+    links = []
+    result = {}
+    for i in range(0,MAX):
+        datarec = {}
+        record = {}
+        record['id'] = i
+        record['host'] = dataverseURL
+        record['fileid'] = fileid
+        record['size'] = MAX
+        record['fields'] = json.loads(datarecords)[i]
+        datarec['record'] = record
+        records.append(datarec)
+    result['links'] = [ fileURL ]
+    result['records'] = records
+    return result
+
+# Data catalogue API conversion
+fileURL = 'https://dataverse.harvard.edu/api/access/datafile/4436989?format=original&gbrecs=true'
+@app.get("/catalog/{dataverseURL}/{fileid}/", tags=["namespace"])
+def records(dataverseURL: str, fileid: str, request: Request):
+    dataset_id = "%s@%s" % (dataverseURL, fileid)
+    (df, datarecords) = datareader(dataverseURL, fileid)
+    datatypes = df.dtypes.replace('object', 'text')
+    fieldtypes = {}
+    for index, value in datatypes.items():
+        fieldtypes[index] = str(value)
+    r = json.loads(datarecords)
+    records = []
+    links = []
+    result = {}
+    fields = []
+    for i in range(0,1):
+        f = []
+        for field in r[i]:
+            fieldtype = 'text'
+            if field in fieldtypes:
+                fieldtype = fieldtypes[field]
+            thisfield = {
+"label": field,
+"type": fieldtype,
+"description": r[i][field],
+"name": field
+            }
+            fields.append(thisfield)
+        
+    result['metadata'] = 'metadata'
+    result['fields'] = fields
+
+    jsonurl = "https://data.opendatasoft.com/api/datasets/1.0/coronavirus-covid-19-pandemic-worldwide-data@bruxellesdata/"
+    r = requests.get(jsonurl)
+    data = r.json()
+    data['fields'] = fields
+    #data['datasetid'] = dataset_id
+    return data
+    return result
+
 @app.get("/{vocab}/{term}/", tags=["namespace"])
 def namespace(vocab: str, term: str, request: Request):
     artnamespace = {}
@@ -107,6 +186,32 @@ def namespace(vocab: str, term: str, request: Request):
     artnamespace['term'] = term
     return artnamespace
     #return "%s %s" % (vocab, term)
+
+@app.get("/wikidata/{operation}/{term}/", tags=["namespace"])
+def namespace(operation: str, term: str, request: Request):
+    artnamespace = {}
+    words = []
+    words = re.findall('[A-Z][^A-Z]*', term)    
+    keywords = " " 
+    keywords = keywords.join(str(x) for x in words)
+    command = "/usr/bin/wd %s -l en -j %s" % (operation, str(keywords))
+    print(command)
+    output = subprocess.run(command.split(), stdout=subprocess.PIPE)
+    artnamespace['operation'] = operation
+    artnamespace['term'] = term
+    artnamespace['result'] = json.loads(output.stdout)
+    return artnamespace
+
+@app.get("/wikitaxonomy/{termid}/{operation}/", tags=["namespace"])
+def namespace(termid: str, operation: str, request: Request):
+    artnamespace = {}
+    command = "/usr/bin/wdtaxonomy %s -l en -j %s" % (termid, operation)
+    print(command)
+    output = subprocess.run(command.split(), stdout=subprocess.PIPE)
+    artnamespace['operation'] = operation
+    artnamespace['term'] = termid
+    artnamespace['result'] = json.loads(output.stdout)
+    return artnamespace
 
 # READ configuration
 def readconfig(iparams):
