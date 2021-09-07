@@ -6,6 +6,8 @@ import uvicorn
 import pandas as pd
 from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
+from typing import Optional
 from starlette.responses import FileResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 from src.model import Vocabularies, WriteXML
@@ -74,6 +76,11 @@ tags_metadata = [
 app = FastAPI(
     openapi_tags=tags_metadata
 )
+
+class Item(BaseModel):
+    name: str
+    content: Optional[str] = None
+
 templates = Jinja2Templates(directory='templates/')
 app.mount('/static', StaticFiles(directory='static'), name='static')
 
@@ -89,6 +96,13 @@ configfile = '/app/conf/gateway.xml'
 if 'config' in os.environ:
     configfile = os.environ['config']
 http = urllib3.PoolManager()
+
+@app.put("/content/{item_id}")
+async def upload_item(item_id: int, item: Item):
+    record = item.dict()
+    if 'content' in record:
+        record['len'] = len(record['content'])
+    return {"item_id": item_id, **record }
 
 @app.get('/configuration/xml')
 def get_configuration_xml():
