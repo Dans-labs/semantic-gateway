@@ -2,7 +2,7 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 RUN apt update
 RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
-RUN apt-get -y install nodejs wget bash git
+RUN apt-get -y install nodejs wget bash vim git
 
 RUN npm install -g wikidata-taxonomy
 RUN npm install -g wikibase-cli
