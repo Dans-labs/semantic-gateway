@@ -18,6 +18,23 @@ import os
 import json
 import urllib3, io
 import subprocess
+from dateutil.parser import parse
+
+def datecheck(string, fuzzy=False):
+    dates = []
+    candidates = string.split('-')
+    if is_date(candidates[0]):
+        for x in candidates:
+            dates.append(is_date(str(x)))
+    return dates
+
+def is_date(string, fuzzy=False):
+    try:
+        x = parse(string, fuzzy=fuzzy)
+        return x
+
+    except ValueError:
+        return False
 
 def custom_openapi():
     if app.openapi_schema:
@@ -178,6 +195,22 @@ def records(dataverseURL: str, fileid: str, request: Request):
     #data['datasetid'] = dataset_id
     return data
     return result
+
+@app.get("/isdate/{thisdate}/", tags=["namespace"])
+def datevalidation(thisdate: str, request: Request):
+    dates = []
+    result = {}
+    result['item'] = thisdate
+    result['date'] = datecheck(thisdate)
+    output = {}
+    output['raw'] = result
+    if 'date' in result:
+        jsonld = {}
+        values = {}
+        values['value'] = result['date']
+        jsonld['http://purl.org/dc/terms/date'] = values 
+        output['jsonld'] = jsonld
+    return output
 
 @app.get("/{vocab}/{term}/", tags=["namespace"])
 def namespace(vocab: str, term: str, request: Request):
