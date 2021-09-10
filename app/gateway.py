@@ -241,6 +241,8 @@ def namespace(operation: str, term: str, request: Request):
     words = re.findall('[A-Z][^A-Z]*', term)    
     keywords = " " 
     keywords = keywords.join(str(x) for x in words)
+    if not keywords:
+        keywords = term
     command = "/usr/bin/wd %s -l en -j %s" % (operation, str(keywords))
     print(command)
     output = subprocess.run(command.split(), stdout=subprocess.PIPE)
