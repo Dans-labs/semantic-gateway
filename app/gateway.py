@@ -22,7 +22,9 @@ import os
 import json
 import urllib3, io
 import subprocess
+from fastapi.responses import JSONResponse
 from dateutil.parser import parse
+from utils import metadatasearch, get_images
 
 def datecheck(string, fuzzy=False):
     dates = []
@@ -423,6 +425,32 @@ def get_image(item_id):
 
     return Response(content=image_bytes, media_type="image/jpeg")
 
+@app.get('/timeline_export')
+def timeline(request: Request):
+    result = []
+    request_args = dict(request.query_params)
+    pids = metadatasearch(request_args)
+    images = []
+    print(pids)
+    if pids:
+        result = get_images(pids)
+    info = {}
+    info['events'] = result['timeline']
+    return JSONResponse(content=info)
+
+@app.get('/timeline')
+def timeline(request: Request):
+    images = []
+    query = False
+    request_args = dict(request.query_params)
+    pids = metadatasearch(request_args)
+    print(pids)
+    if 'q' in request_args:
+        query = request_args['q']
+    feed = "http://192.168.1.101:9266/static/welcome.json"
+    feed = "http://192.168.1.101:9266/timeline_export?q=%s" % query
+    return templates.TemplateResponse('timeline.html', context={'request': request, 'query': query, 'images': images, 'feed': feed})
+
 @app.get('/gallery')
 def gallery(request: Request):
     images = []
@@ -461,7 +489,12 @@ def gallery(request: Request):
                     try:
                         files = json.loads(resp.content)
                         fileid = files['data']['files'][0]['dataFile']['id']
-                        images.append("/images/%s" % fileid) 
+                        thisitem = {}
+                        thisitem['fileid'] = fileid
+                        thisitem['image'] = "/images/%s" % fileid
+                        thisitem['url'] = metadata['value']
+                        #images.append("/images/%s" % fileid) 
+                        images.append(thisitem)
                     except:
                         skip = True
 
