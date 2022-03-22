@@ -2372,8 +2372,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="row" id="lightgallery">
 {%for image in images %}
-   <a href="{{ image }}">
-   <img src="{{ image }}"/>
+   <a href="{{ image.image }}">
+   <img src="{{ image.image }}"/>
    </a>
 {% endfor %}
 </div>
