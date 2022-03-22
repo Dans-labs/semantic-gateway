@@ -8,11 +8,13 @@ from fastapi import FastAPI, Request, Response
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from typing import Optional
+from config import ROOT, API_TOKEN, DATAVERSE_ID 
 from starlette.responses import FileResponse, RedirectResponse
 from starlette.staticfiles import StaticFiles
 from src.model import Vocabularies, WriteXML
 from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
+from pyDataverse.api import DataAccessApi, SearchApi, NativeApi
 import xml.etree.ElementTree as ET
 import requests
 import re
@@ -408,6 +410,65 @@ def get_fields_composer(request: Request):
 
         vocabularies = Vocabularies(configfile)
     return templates.TemplateResponse('dv-cvm-setting-generator.html', context={'request': request, 'dv_setting_json' : dv_setting_json, 'ontologies': vocabularies.get_ontologies()})
+
+@app.get("/images/{item_id}")
+def get_image(item_id):
+    filenum = item_id #'1407'
+    filepath = "/tmp/%s" % filenum
+    command = "curl -H 'X-Dataverse-key:%s' %s/api/access/datafile/%s --output %s" % (API_TOKEN, ROOT, filenum, filepath)
+
+    dv_alias = 'root'
+    api = DataAccessApi(ROOT, API_TOKEN)
+    image_bytes = api.get_datafile(filenum).content
+
+    return Response(content=image_bytes, media_type="image/jpeg")
+
+@app.get('/gallery')
+def gallery(request: Request):
+    images = []
+    request_args = dict(request.query_params)
+    native_api = NativeApi(ROOT, API_TOKEN)
+    s = SearchApi(ROOT, API_TOKEN)
+    if 'q' in request_args:
+        q = request_args['q']
+    else:
+        q = '*'
+        
+    if q:
+        searchdata = s.search(q, sort='date', per_page=100)
+        results = json.loads(searchdata.content)
+        pids = {}
+        for item in results['data']['items']:
+            if 'global_id' in item:
+                pids[item['global_id']] = item['description']
+                print(item['global_id'])
+
+    urls = {}
+    for doi in pids:
+        resp = None
+        try:
+            try:
+                resp = native_api.get_dataset_version(doi, ':latest')
+            except:
+                resp = native_api.get_dataset_version(doi, ':draft')
+        except:
+            print("Skip %s" % doi)
+        if resp:
+            for metadata in json.loads(resp.content)['data']['metadataBlocks']['citation']['fields']:
+                if metadata['typeName'] == 'alternativeURL':
+                    #print(metadata)
+                    urls[doi] = metadata['value']
+                    try:
+                        files = json.loads(resp.content)
+                        fileid = files['data']['files'][0]['dataFile']['id']
+                        images.append("/images/%s" % fileid) 
+                    except:
+                        skip = True
+
+    #images.append('/images/1407')
+    #images.append('/images/1408')
+    return templates.TemplateResponse('gallery-broker.html', context={'request': request, 'images': images}) 
+    #, 'dv_setting_json' : dv_setting_json, 'ontologies': vocabularies.get_ontologies()})
 
 def cessda(config):
     data = json.loads(requests.get(config['apiurl']).text)
