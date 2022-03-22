@@ -26,6 +26,7 @@ def get_images(pids):
     images = []
     timeline = []
     result = {}
+    known = {}
 
     for doi in pids:
         resp = None
@@ -76,10 +77,13 @@ def get_images(pids):
 
             if url:
                 if 'text' in thistext:
-                    thistext['text'] = "(<a href='%s'>Original</a>) " % url + thistext['text'] 
+                    thistext['text'] = "(<a href='%s' target=\"_blank\">Original</a>) " % url + thistext['text'] 
             mediaitem['text'] = thistext
 
-        timeline.append(mediaitem)
+        if not url in known:
+            if mediaitem:
+                timeline.append(mediaitem)
+        known[url] = url
     result['images'] = images
     result['timeline'] = timeline
     return result
