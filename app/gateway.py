@@ -25,6 +25,17 @@ import subprocess
 from fastapi.responses import JSONResponse
 from dateutil.parser import parse
 from utils import metadatasearch, get_images
+from requests_html import HTMLSession
+
+def liveurl(posturl):
+    url = None
+    try:
+        session = HTMLSession()
+        response = session.get(posturl)
+    except requests.exceptions.RequestException as e:
+        skip = posturl
+    url = response.html.xpath("//meta[@name='twitter:image']/@content")[0]
+    return url
 
 def datecheck(string, fuzzy=False):
     dates = []
@@ -151,6 +162,12 @@ def datareader(dataverseURL, fileid):
         return "{ 'error': 'Not supported format' }"
 
 # Data files conversion to the Semantic Bot format, for example: /records/dataverse.harvard.edu/4436990/
+@app.get("/liveurl", tags=["namespace"])
+def live(request: Request):
+    if 'url' in request.query_params:
+        return(liveurl(request.query_params['url']))
+    return
+
 @app.get("/records/{dataverseURL}/{fileid}/", tags=["namespace"])
 def records(dataverseURL: str, fileid: str, request: Request):
     #fileURL = 'https://dataverse.harvard.edu/api/access/datafile/4436989?format=original&gbrecs=true'

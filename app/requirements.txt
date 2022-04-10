@@ -4,3 +4,5 @@ elasticsearch
 pandas
 aiofiles
 jinja2
+pandas
+requests_html
